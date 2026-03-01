@@ -12,11 +12,11 @@ ssh root@38.242.143.93
 
 ### 2. Proje klasörüne gir ve script’i çalıştır
 
-Kullanacağın şifreyi kendin belirle (örnek: `BenimGucluSifrem123`). **Şifrede tek tırnak (`'`) kullanma.**
+Kullanacağın şifreyi kendin belirle (örnek: `YourSecureDbPassword123`). **Şifrede tek tırnak (`'`) kullanma.**
 
 ```bash
 cd /var/www/feelstudio
-bash deploy/fix-db-credentials.sh 'BenimGucluSifrem123'
+bash deploy/fix-db-credentials.sh 'YourSecureDbPassword123'
 ```
 
 (Belirtmezsen varsayılan şifre `izstudio123` kullanılır.)
@@ -32,7 +32,7 @@ nano .env
 `DATABASE_URL` satırını, az önce kullandığın şifreyle aynı olacak şekilde düzenle:
 
 ```env
-DATABASE_URL="postgresql://izstudio:BenimGucluSifrem123@localhost:5432/izstudio?schema=public"
+DATABASE_URL="postgresql://izstudio:YourSecureDbPassword123@localhost:5432/izstudio?schema=public"
 ```
 
 Kaydet: `Ctrl+O`, Enter, `Ctrl+X`.

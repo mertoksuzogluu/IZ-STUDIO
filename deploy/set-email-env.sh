@@ -6,14 +6,14 @@
 #   cd /var/www/feelstudio
 #   bash deploy/set-email-env.sh 'SMTP_ŞİFRENİZ'
 #
-# Örnek: bash deploy/set-email-env.sh '4L3kCqt_+tr*'
+# Örnek: bash deploy/set-email-env.sh 'SMTP_SIFRENIZ'
 
 set -e
 SMTP_PASS="${1:-}"
 
 if [ -z "$SMTP_PASS" ]; then
   echo "Kullanım: bash deploy/set-email-env.sh 'SMTP_ŞİFRENİZ'"
-  echo "Örnek:   bash deploy/set-email-env.sh '4L3kCqt_+tr*'"
+  echo "Örnek:   bash deploy/set-email-env.sh 'SMTP_SIFRENIZ'"
   exit 1
 fi
 

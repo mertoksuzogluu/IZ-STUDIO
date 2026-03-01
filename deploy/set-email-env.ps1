@@ -1,5 +1,5 @@
 # Sunucuda e-posta (SMTP) ayarlarini .env'e ekler. Sifreyi parametre olarak verin.
-# Kullanim: cd C:\Users\merto\iz-studio  sonra  .\deploy\set-email-env.ps1 '4L3kCqt_+tr*'
+# Kullanim: cd C:\Users\merto\iz-studio  sonra  .\deploy\set-email-env.ps1 'SMTP_SIFRENIZ'
 # (Sifreyi repoya yazmayin; sadece calistirirken girin.)
 
 param(
