@@ -1,0 +1,662 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-playfair: 'Playfair Display', serif;
+  --font-inter: 'Inter', sans-serif;
+  
+  /* Default theme variables - will be overridden by ThemeShell */
+  --bg: #FFFFFF;
+  --fg: #111111;
+  --muted: #666666;
+  --card: #FFFFFF;
+  --border: #EAEAEA;
+  --accent: #111111;
+  --accent2: #333333;
+  --overlayFrom: transparent;
+  --overlayTo: transparent;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-inter);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+/* Typography Scale */
+h1, .h1 {
+  font-size: 2.5rem;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  font-family: var(--font-playfair);
+}
+
+@media (min-width: 768px) {
+  h1, .h1 {
+    font-size: 3.75rem;
+  }
+}
+
+h2, .h2 {
+  font-size: 1.875rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+  font-family: var(--font-playfair);
+}
+
+@media (min-width: 768px) {
+  h2, .h2 {
+    font-size: 2.25rem;
+  }
+}
+
+h3, .h3 {
+  font-size: 1.25rem;
+  line-height: 1.3;
+  font-weight: 400;
+  font-family: var(--font-playfair);
+}
+
+@media (min-width: 768px) {
+  h3, .h3 {
+    font-size: 1.5rem;
+  }
+}
+
+p, .body {
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+@media (min-width: 768px) {
+  p, .body {
+    font-size: 1.125rem;
+  }
+}
+
+/* Subtle fade-in animation (respects prefers-reduced-motion) */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .fade-in {
+    animation: none;
+  }
+}
+
+/* Mobile improvements */
+@media (max-width: 767px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  input, select, textarea, button {
+    font-size: 16px !important;
+  }
+
+  .pt-32 {
+    padding-top: 5rem !important;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FFFFFF;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #EAEAEA;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #CCCCCC;
+}
+
+/* Story Animation Keyframes */
+@keyframes romantic-float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-8px) translateX(2px);
+  }
+}
+
+@keyframes romantic-left {
+  0%, 100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  50% {
+    transform: translateX(-3px) rotate(-2deg);
+  }
+}
+
+@keyframes romantic-right {
+  0%, 100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  50% {
+    transform: translateX(3px) rotate(2deg);
+  }
+}
+
+@keyframes romantic-arm {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+    transform: translateX(2px) translateY(-2px);
+  }
+}
+
+@keyframes heart-float-1 {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-10px) scale(1.1);
+    opacity: 0.6;
+  }
+}
+
+@keyframes heart-float-2 {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-8px) translateX(5px);
+    opacity: 0.5;
+  }
+}
+
+@keyframes heart-float-3 {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-8px) translateX(-5px);
+    opacity: 0.5;
+  }
+}
+
+@keyframes emerge-realistic {
+  0% {
+    transform: translateY(20px) scale(0.9);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes head-emerge {
+  0% {
+    transform: translateY(15px);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes body-emerge {
+  0% {
+    transform: translateY(25px);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes hand-reach {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+    transform: translateX(5px) translateY(-3px);
+  }
+}
+
+@keyframes sparkle-1 {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+}
+
+@keyframes sparkle-2 {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes sparkle-3 {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.25);
+  }
+}
+
+@keyframes sparkle-4 {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.35);
+  }
+}
+
+@keyframes playful-walk {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes mother-walk {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+  }
+  25% {
+    transform: translateX(2px) translateY(-2px);
+  }
+  75% {
+    transform: translateX(-2px) translateY(2px);
+  }
+}
+
+@keyframes child-walk {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+  }
+  25% {
+    transform: translateX(3px) translateY(-3px);
+  }
+  75% {
+    transform: translateX(-3px) translateY(3px);
+  }
+}
+
+@keyframes arm-swing {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
+}
+
+@keyframes arm-swing-delay {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-15deg);
+  }
+}
+
+@keyframes leg-walk-left {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+    transform: translateX(-2px) translateY(-5px);
+  }
+}
+
+@keyframes leg-walk-right {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+    transform: translateX(2px) translateY(-5px);
+  }
+}
+
+@keyframes heart-connection {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+}
+
+@keyframes butterfly-1 {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-10px) translateX(5px);
+  }
+  50% {
+    transform: translateY(-5px) translateX(10px);
+  }
+  75% {
+    transform: translateY(-15px) translateX(5px);
+  }
+}
+
+@keyframes butterfly-2 {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-8px) translateX(-5px);
+  }
+  50% {
+    transform: translateY(-3px) translateX(-10px);
+  }
+  75% {
+    transform: translateY(-12px) translateX(-5px);
+  }
+}
+
+@keyframes star-1 {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+@keyframes star-2 {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: rotate(-180deg) scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes photo-frame {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+}
+
+@keyframes light-rays {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes sun-glow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes ground-line {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Animation Classes */
+.animate-romantic-float {
+  animation: romantic-float 4s ease-in-out infinite;
+}
+
+.animate-romantic-left {
+  animation: romantic-left 3s ease-in-out infinite;
+}
+
+.animate-romantic-right {
+  animation: romantic-right 3s ease-in-out infinite;
+}
+
+.animate-romantic-arm {
+  animation: romantic-arm 2s ease-in-out infinite;
+}
+
+.animate-heart-float-1 {
+  animation: heart-float-1 3s ease-in-out infinite;
+}
+
+.animate-heart-float-2 {
+  animation: heart-float-2 2.5s ease-in-out infinite;
+}
+
+.animate-heart-float-3 {
+  animation: heart-float-3 2.8s ease-in-out infinite;
+}
+
+.animate-emerge-realistic {
+  animation: emerge-realistic 2s ease-out forwards;
+}
+
+.animate-head-emerge {
+  animation: head-emerge 1.5s ease-out forwards;
+}
+
+.animate-body-emerge {
+  animation: body-emerge 2s ease-out forwards;
+}
+
+.animate-hand-reach {
+  animation: hand-reach 2s ease-in-out infinite;
+}
+
+.animate-sparkle-1 {
+  animation: sparkle-1 2s ease-in-out infinite;
+}
+
+.animate-sparkle-2 {
+  animation: sparkle-2 2.3s ease-in-out infinite;
+}
+
+.animate-sparkle-3 {
+  animation: sparkle-3 2.5s ease-in-out infinite;
+}
+
+.animate-sparkle-4 {
+  animation: sparkle-4 2.1s ease-in-out infinite;
+}
+
+.animate-playful-walk {
+  animation: playful-walk 3s ease-in-out infinite;
+}
+
+.animate-mother-walk {
+  animation: mother-walk 2.5s ease-in-out infinite;
+}
+
+.animate-child-walk {
+  animation: child-walk 2s ease-in-out infinite;
+}
+
+.animate-arm-swing {
+  animation: arm-swing 1.5s ease-in-out infinite;
+}
+
+.animate-arm-swing-delay {
+  animation: arm-swing-delay 1.5s ease-in-out infinite 0.3s;
+}
+
+.animate-leg-walk-left {
+  animation: leg-walk-left 1.2s ease-in-out infinite;
+}
+
+.animate-leg-walk-right {
+  animation: leg-walk-right 1.2s ease-in-out infinite 0.6s;
+}
+
+.animate-heart-connection {
+  animation: heart-connection 2s ease-in-out infinite;
+}
+
+.animate-butterfly-1 {
+  animation: butterfly-1 4s ease-in-out infinite;
+}
+
+.animate-butterfly-2 {
+  animation: butterfly-2 4.5s ease-in-out infinite;
+}
+
+.animate-star-1 {
+  animation: star-1 3s ease-in-out infinite;
+}
+
+.animate-star-2 {
+  animation: star-2 3.5s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+.animate-photo-frame {
+  animation: photo-frame 4s ease-in-out infinite;
+}
+
+.animate-light-rays {
+  animation: light-rays 3s ease-in-out infinite;
+}
+
+.animate-sun-glow {
+  animation: sun-glow 2s ease-in-out infinite;
+}
+
+.animate-ground-line {
+  animation: ground-line 2.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-romantic-float,
+  .animate-romantic-left,
+  .animate-romantic-right,
+  .animate-romantic-arm,
+  .animate-heart-float-1,
+  .animate-heart-float-2,
+  .animate-heart-float-3,
+  .animate-emerge-realistic,
+  .animate-head-emerge,
+  .animate-body-emerge,
+  .animate-hand-reach,
+  .animate-sparkle-1,
+  .animate-sparkle-2,
+  .animate-sparkle-3,
+  .animate-sparkle-4,
+  .animate-playful-walk,
+  .animate-mother-walk,
+  .animate-child-walk,
+  .animate-arm-swing,
+  .animate-arm-swing-delay,
+  .animate-leg-walk-left,
+  .animate-leg-walk-right,
+  .animate-heart-connection,
+  .animate-butterfly-1,
+  .animate-butterfly-2,
+  .animate-star-1,
+  .animate-star-2,
+  .animate-pulse-slow,
+  .animate-photo-frame,
+  .animate-light-rays,
+  .animate-sun-glow,
+  .animate-ground-line {
+    animation: none !important;
+  }
+}

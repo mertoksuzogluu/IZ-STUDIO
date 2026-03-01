@@ -1,0 +1,319 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  user
+  admin
+}
+
+enum OrderStatus {
+  RECEIVED
+  IN_PRODUCTION
+  PREVIEW_READY
+  REVISION
+  FINALIZING
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum MediaAssetType {
+  photo
+  video
+  audio
+}
+
+enum DeliveryAssetType {
+  mp4
+  reels
+  cover
+  other
+}
+
+enum ShipmentStatus {
+  PENDING
+  IN_TRANSIT
+  DELIVERED
+  RETURNED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  role          UserRole  @default(user)
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  orders        Order[]
+  accounts      Account[]
+  sessions      Session[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  password          String? @db.Text
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String?  @db.Text
+  isPhysical  Boolean  @default(false)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tiers       PackageTier[]
+  orders      Order[]
+  discounts  Discount[]
+
+  @@map("products")
+}
+
+model PackageTier {
+  id              String   @id @default(cuid())
+  productId       String
+  name            String
+  priceTRY        Float
+  durationSec     Int?
+  physicalVariant String?
+  active          Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  product         Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  orders          Order[]
+
+  @@map("package_tiers")
+}
+
+model Order {
+  id            String        @id @default(cuid())
+  orderCode    String        @unique
+  userId       String?
+  guestEmail   String?
+  phoneNumber  String?
+  productId    String
+  tierId       String
+  status       OrderStatus   @default(RECEIVED)
+  totalPriceTRY Float
+  discountCode  String?
+  discountAmountTRY Float    @default(0)
+  physicalPackage Boolean    @default(false)
+  urgentDelivery Boolean     @default(false)
+  uhd4k        Boolean       @default(false)
+  paymentStatus PaymentStatus @default(PENDING)
+  previewLink  String?       @db.Text
+  adminNotes   String?       @db.Text
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  user         User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product      Product       @relation(fields: [productId], references: [id])
+  tier         PackageTier   @relation(fields: [tierId], references: [id])
+  
+  brief        OrderBrief?
+  shippingAddress OrderShippingAddress?
+  mediaAssets  MediaAsset[]
+  revisions    RevisionRequest[]
+  deliveryAssets DeliveryAsset[]
+  shipments   Shipment[]
+  qrLink       QrLink?
+
+  @@map("orders")
+}
+
+model OrderBrief {
+  id        String   @id @default(cuid())
+  orderId   String   @unique
+  names     String
+  occasion  String?
+  tone      String?
+  prompts   Json?
+  notes     String?  @db.Text
+  urgency   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("order_briefs")
+}
+
+model OrderShippingAddress {
+  id            String   @id @default(cuid())
+  orderId       String   @unique
+  fullName      String
+  addressLine1  String
+  addressLine2  String?
+  city          String
+  district      String
+  postalCode    String?
+  phone         String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("order_shipping_addresses")
+}
+
+model MediaAsset {
+  id        String          @id @default(cuid())
+  orderId   String
+  type      MediaAssetType
+  url       String          @db.Text
+  filename  String
+  size      Int
+  createdAt DateTime        @default(now())
+
+  order     Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("media_assets")
+}
+
+model RevisionRequest {
+  id         String    @id @default(cuid())
+  orderId    String
+  message    String    @db.Text
+  resolvedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  order      Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("revision_requests")
+}
+
+model DeliveryAsset {
+  id        String            @id @default(cuid())
+  orderId   String
+  type      DeliveryAssetType
+  url       String            @db.Text
+  filename  String
+  createdAt DateTime          @default(now())
+
+  order     Order             @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("delivery_assets")
+}
+
+model Shipment {
+  id            String         @id @default(cuid())
+  orderId       String
+  carrier       String
+  trackingNumber String?
+  address       Json
+  status        ShipmentStatus @default(PENDING)
+  updatedAt     DateTime       @updatedAt
+  createdAt     DateTime       @default(now())
+
+  order         Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("shipments")
+}
+
+model QrLink {
+  id           String    @id @default(cuid())
+  orderId      String    @unique
+  slug         String    @unique
+  isActive     Boolean   @default(true)
+  pinCode      String?
+  viewCount    Int       @default(0)
+  createdAt    DateTime  @default(now())
+  lastViewedAt DateTime?
+
+  order        Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("qr_links")
+}
+
+model Discount {
+  id            String    @id @default(cuid())
+  code          String    @unique
+  type          DiscountType
+  value         Float
+  productId     String?
+  minOrderAmountTRY Float?
+  validFrom     DateTime?
+  validUntil    DateTime?
+  maxUses       Int?
+  usedCount    Int       @default(0)
+  active       Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  product       Product?  @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  @@map("discounts")
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String @db.Text
+  updatedAt DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
