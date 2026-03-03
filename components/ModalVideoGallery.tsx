@@ -31,25 +31,42 @@ export default function ModalVideoGallery({ items }: ModalVideoGalleryProps) {
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {items.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => setSelectedVideo(item)}
-            className="relative aspect-video overflow-hidden rounded-sm group cursor-pointer"
-            aria-label={item.title || 'Video oynat'}
-          >
-            <img
-              src={item.thumbnail}
-              alt={item.title || 'Video önizleme'}
-              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-              <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
-          </button>
-        ))}
+        {items.map((item) => {
+          const videoSrc = item.mp4Src || item.webmSrc
+          const hasCover = item.thumbnail && item.thumbnail.trim() !== ''
+          return (
+            <button
+              key={item.id}
+              onClick={() => setSelectedVideo(item)}
+              className="relative aspect-video overflow-hidden rounded-sm group cursor-pointer"
+              aria-label={item.title || 'Video oynat'}
+            >
+              {hasCover ? (
+                <img
+                  src={item.thumbnail}
+                  alt={item.title || 'Video önizleme'}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              ) : videoSrc ? (
+                <video
+                  src={videoSrc}
+                  preload="auto"
+                  muted
+                  playsInline
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  aria-hidden
+                />
+              ) : (
+                <div className="absolute inset-0 bg-[var(--border)] flex items-center justify-center" />
+              )}
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+            </button>
+          )
+        })}
       </div>
 
       {selectedVideo && (
