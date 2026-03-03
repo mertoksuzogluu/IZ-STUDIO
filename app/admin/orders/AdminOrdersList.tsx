@@ -2,7 +2,9 @@
 
 import { useState, useMemo } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import Card from "@/components/design-system/Card"
+import Button from "@/components/design-system/Button"
 import {
   formatPrice,
   formatDate,
@@ -175,12 +177,70 @@ export default function AdminOrdersList({
   const activeCount = orders.filter((o) => (ACTIVE_STATUSES as readonly string[]).includes(o.status)).length
   const completedCount = orders.filter((o) => (COMPLETED_STATUSES as readonly string[]).includes(o.status)).length
 
+  const [clearing, setClearing] = useState(false)
+  const [showClearConfirm, setShowClearConfirm] = useState(false)
+  const router = useRouter()
+
+  const handleClearAllOrders = async () => {
+    setClearing(true)
+    try {
+      const res = await fetch("/api/admin/orders/clear-all", { method: "POST" })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(data.error || "İşlem başarısız")
+      setShowClearConfirm(false)
+      router.refresh()
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "Siparişler silinemedi.")
+    } finally {
+      setClearing(false)
+    }
+  }
+
   return (
     <>
-      <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-serif text-[var(--fg)] mb-2">Sipariş Yönetimi</h1>
-        <p className="text-[var(--muted)]">Siparişleri haftalık olarak görüntüleyin ve yönetin.</p>
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl md:text-4xl font-serif text-[var(--fg)] mb-2">Sipariş Yönetimi</h1>
+          <p className="text-[var(--muted)]">Siparişleri haftalık olarak görüntüleyin ve yönetin.</p>
+        </div>
+        {orders.length > 0 && (
+          <div>
+            <Button
+              type="button"
+              variant="outline"
+              className="text-red-600 border-red-200 hover:bg-red-50"
+              onClick={() => setShowClearConfirm(true)}
+            >
+              Tüm siparişleri temizle (test)
+            </Button>
+          </div>
+        )}
       </div>
+
+      {showClearConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true">
+          <Card className="max-w-md w-full p-6">
+            <h3 className="text-lg font-serif text-[var(--fg)] mb-2">Tüm siparişleri sil</h3>
+            <p className="text-sm text-[var(--muted)] mb-6">
+              Tüm siparişler ve ilişkili veriler (brief, medya, kargo vb.) kalıcı olarak silinecek. Bu işlem geri alınamaz. Devam edilsin mi?
+            </p>
+            <div className="flex gap-3 justify-end">
+              <Button type="button" variant="outline" onClick={() => setShowClearConfirm(false)} disabled={clearing}>
+                İptal
+              </Button>
+              <Button
+                type="button"
+                variant="primary"
+                className="bg-red-600 hover:bg-red-700"
+                onClick={handleClearAllOrders}
+                disabled={clearing}
+              >
+                {clearing ? "Siliniyor…" : "Evet, tümünü sil"}
+              </Button>
+            </div>
+          </Card>
+        </div>
+      )}
 
       {/* Sekmeler */}
       <div className="flex gap-1 p-1 bg-[var(--border)]/50 rounded-xl mb-6 w-fit">

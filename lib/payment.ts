@@ -1,6 +1,23 @@
+/**
+ * iyzico ödeme entegrasyonu.
+ * Resmi client: https://github.com/iyzico/iyzipay-node
+ * Env: IYZIPAY_API_KEY, IYZIPAY_SECRET_KEY, IYZIPAY_URI (veya IYZICO_* / IYZICO_SANDBOX)
+ */
 import Iyzipay from "iyzipay"
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://feelcreativestudio.com"
+
+/** Resmi kütüphane hem IYZIPAY_* hem kendi env isimlerimizi desteklesin diye birleştiriyoruz */
+function getIyzicoConfig() {
+  const apiKey = (process.env.IYZIPAY_API_KEY ?? process.env.IYZICO_API_KEY ?? "").trim()
+  const secretKey = (process.env.IYZIPAY_SECRET_KEY ?? process.env.IYZICO_SECRET_KEY ?? "").trim()
+  const uriFromEnv = (process.env.IYZIPAY_URI ?? "").trim()
+  const sandboxEnv = (process.env.IYZICO_SANDBOX ?? "").trim().toLowerCase() === "true"
+  const uri =
+    uriFromEnv ||
+    (sandboxEnv ? "https://sandbox-api.iyzipay.com" : "https://api.iyzipay.com")
+  return { apiKey, secretKey, uri, isSandbox: sandboxEnv }
+}
 
 export interface PaymentProvider {
   initiatePayment(params: {
@@ -39,24 +56,22 @@ export class MockPaymentProvider implements PaymentProvider {
   }
 }
 
-// ─── iyzico Payment Provider ───
+// ─── iyzico Payment Provider (iyzipay-node ile) ───
 export class IyzicoPaymentProvider implements PaymentProvider {
   private iyzipay: InstanceType<typeof Iyzipay>
 
   constructor() {
-    const apiKey = process.env.IYZICO_API_KEY
-    const secretKey = process.env.IYZICO_SECRET_KEY
+    const { apiKey, secretKey, uri } = getIyzicoConfig()
     if (!apiKey || !secretKey) {
-      throw new Error("IYZICO_API_KEY ve IYZICO_SECRET_KEY env değişkenleri gerekli")
+      throw new Error(
+        "IYZIPAY_API_KEY / IYZIPAY_SECRET_KEY veya IYZICO_API_KEY / IYZICO_SECRET_KEY env değişkenleri gerekli"
+      )
     }
-
-    const isSandbox = process.env.IYZICO_SANDBOX === "true"
+    // Resmi init: https://github.com/iyzico/iyzipay-node#initialization
     this.iyzipay = new Iyzipay({
       apiKey,
       secretKey,
-      uri: isSandbox
-        ? "https://sandbox-api.iyzipay.com"
-        : "https://api.iyzipay.com",
+      uri,
     })
   }
 
@@ -188,14 +203,29 @@ export class IyzicoPaymentProvider implements PaymentProvider {
 
 // ─── Provider seçimi ───
 function createPaymentProvider(): PaymentProvider {
-  if (process.env.PAYMENT_PROVIDER === "iyzico") {
+  const provider = (process.env.PAYMENT_PROVIDER || "").trim().toLowerCase()
+  if (provider === "iyzico") {
     try {
+      const { apiKey, secretKey, uri } = getIyzicoConfig()
+      if (!apiKey || !secretKey) {
+        console.warn(
+          "[Payment] PAYMENT_PROVIDER=iyzico ama API key/secret bos (IYZIPAY_* veya IYZICO_*). Mock kullaniliyor."
+        )
+        return new MockPaymentProvider()
+      }
       return new IyzicoPaymentProvider()
     } catch (e: any) {
-      console.error("[Payment] iyzico provider oluşturulamadı:", e.message)
-      console.warn("[Payment] Mock provider kullanılıyor")
+      console.error("[Payment] iyzico provider olusturulamadi:", e.message)
+      console.warn("[Payment] Mock provider kullaniliyor.")
       return new MockPaymentProvider()
     }
+  }
+  if (provider !== "mock") {
+    console.warn(
+      "[Payment] PAYMENT_PROVIDER ne 'iyzico' ne 'mock' (mevcut: '" +
+        (process.env.PAYMENT_PROVIDER || "(bos)") +
+        "'). Mock kullaniliyor."
+    )
   }
   return new MockPaymentProvider()
 }

@@ -255,6 +255,12 @@ export default async function AdminPage() {
                 <p className="text-sm text-[var(--muted)]">Galeri videoları yönetin.</p>
               </Card>
             </Link>
+            <Link href="/admin/payment-status">
+              <Card hover className="p-5 h-full">
+                <h3 className="text-lg font-serif text-[var(--fg)] mb-1">Ödeme Durumu</h3>
+                <p className="text-sm text-[var(--muted)]">iyzico canlı mı / mock mu — nedenini görün.</p>
+              </Card>
+            </Link>
           </div>
         </div>
       </Container>

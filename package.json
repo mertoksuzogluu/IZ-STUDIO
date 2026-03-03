@@ -11,7 +11,8 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
-    "admin:promote": "tsx scripts/promote-admin.ts"
+    "admin:promote": "tsx scripts/promote-admin.ts",
+    "live:odeme-ve-temizlik": "powershell -ExecutionPolicy Bypass -File scripts/live-odeme-ve-temizlik.ps1"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.4.0",

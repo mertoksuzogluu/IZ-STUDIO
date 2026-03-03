@@ -75,13 +75,13 @@ function DropZone({
       >
         <input {...getInputProps()} />
         {value ? (
-          <div className="relative w-full aspect-video rounded overflow-hidden bg-[var(--border)]">
+          <div className="relative w-full aspect-video rounded overflow-hidden bg-[var(--border)] [&>img]:object-cover [&>img]:object-center">
             {value.match(/\.(jpg|jpeg|png|webp|gif)(\?|$)/i) ? (
               <Image
                 src={value}
                 alt="Küçük resim (16:9)"
                 fill
-                className="object-cover"
+                className="object-cover object-center"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
             ) : (
