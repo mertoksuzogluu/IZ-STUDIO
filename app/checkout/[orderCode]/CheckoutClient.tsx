@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import Button from "@/components/design-system/Button"
 import Card from "@/components/design-system/Card"
 import { formatPrice } from "@/lib/utils"
+import PaymentBadges from "@/components/PaymentBadges"
 
 interface CheckoutClientProps {
   order: {
@@ -124,15 +125,13 @@ export default function CheckoutClient({ order }: CheckoutClientProps) {
           {isProcessing ? "Ödeme sayfasına yönlendiriliyorsunuz..." : "Güvenli Ödemeye Geç"}
         </Button>
 
-        <div className="flex items-center justify-center gap-2 mt-4">
-          <svg className="w-4 h-4 text-[var(--muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-          </svg>
-          <span className="text-xs text-[var(--muted)]">256-bit SSL ile güvenli ödeme — iyzico altyapısı</span>
-        </div>
       </Card>
 
-      <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+      <div className="mt-6">
+        <PaymentBadges variant="checkout" />
+      </div>
+
+      <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
         <p className="text-sm text-blue-800 mb-2">
           <strong>Bilgi:</strong> Ödeme iyzico güvenli ödeme sayfasında gerçekleşir.
         </p>

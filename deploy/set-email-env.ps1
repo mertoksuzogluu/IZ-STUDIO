@@ -18,10 +18,10 @@ Write-Host "[1/2] set-email-env.sh sunucuya kopyalaniyor..." -ForegroundColor Ye
 scp $scriptPath "${SERVER}:${REMOTE}/deploy/set-email-env.sh"
 Write-Host "[2/2] Sunucuda e-posta ayarlari .env'e yaziliyor..." -ForegroundColor Yellow
 $escaped = $SmtpPassword -replace "'", "'\\''"
-ssh $SERVER "cd $REMOTE && bash deploy/set-email-env.sh '$escaped'"
+ssh $SERVER "cd $REMOTE && bash deploy/set-email-env.sh '$escaped' && pm2 restart feelstudio"
 if ($LASTEXITCODE -eq 0) {
     Write-Host ""
-    Write-Host "Bitti. Gerekirse sunucuda: pm2 restart feelstudio" -ForegroundColor Green
+    Write-Host "Bitti. SMTP ayarlari yazildi ve feelstudio yeniden baslatildi." -ForegroundColor Green
 } else {
     Write-Host "Hata olustu." -ForegroundColor Red
     exit 1

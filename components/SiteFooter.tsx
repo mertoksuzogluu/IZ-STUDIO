@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Container from './design-system/Container'
 import Button from './design-system/Button'
 import { buildWhatsAppLink } from '@/lib/whatsapp'
+import PaymentBadges from './PaymentBadges'
 
 export default function SiteFooter({
   tagline = "Sizin hikâyenizden sinematik kısa filmler. Stüdyo prodüksiyonu ile kişiye özel filmler.",
@@ -55,8 +56,11 @@ export default function SiteFooter({
             </div>
           </div>
 
-          <div className="pt-8 border-t border-[var(--border)] text-center">
-            <p className="text-sm text-[var(--muted)]">
+          <div className="pt-8 border-t border-[var(--border)]">
+            <div className="mb-6">
+              <PaymentBadges variant="default" />
+            </div>
+            <p className="text-sm text-[var(--muted)] text-center">
               &copy; {new Date().getFullYear()} Feel Studio. Tüm hakları saklıdır.
             </p>
           </div>

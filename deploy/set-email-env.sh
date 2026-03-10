@@ -17,8 +17,9 @@ if [ -z "$SMTP_PASS" ]; then
   exit 1
 fi
 
-ENV_FILE="${ENV_FILE:-.env}"
 cd /var/www/feelstudio 2>/dev/null || true
+# Next.js önce .env.local okur; sunucuda hangisi varsa ona yaz
+if [ -f ".env.local" ]; then ENV_FILE=".env.local"; else ENV_FILE=".env"; fi
 [ -f "$ENV_FILE" ] || { echo "Hata: $ENV_FILE bulunamadı."; exit 1; }
 
 # Mevcut SMTP/EMAIL satırlarını kaldır (varsa)
@@ -32,7 +33,7 @@ fi
   echo ""
   echo "# E-posta (no-reply@feelcreativestudio.com) - deploy/set-email-env.sh"
   echo 'EMAIL_FROM="Feel Studio <no-reply@feelcreativestudio.com>"'
-  echo 'SMTP_HOST="smtp.feelcreativestudio.com"'
+  echo 'SMTP_HOST="smtp.turkticaret.net"'
   echo 'SMTP_PORT="587"'
   echo 'SMTP_SECURE="false"'
   echo 'SMTP_USER="no-reply@feelcreativestudio.com"'
