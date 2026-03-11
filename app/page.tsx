@@ -9,7 +9,6 @@ import Button from '@/components/design-system/Button'
 import Card from '@/components/design-system/Card'
 import Badge from '@/components/design-system/Badge'
 import ModalVideoGallery from '@/components/ModalVideoGallery'
-import StoryAnimation from '@/components/StoryAnimation'
 import { getSiteCopy } from '@/lib/siteCopy'
 import { getExampleVideos } from '@/lib/exampleVideos'
 import { getActiveSpecialTheme } from '@/lib/settings'
@@ -37,30 +36,9 @@ export default async function HomePage() {
     themeKey !== 'default' ? SPECIAL_DAY_COPY[themeKey as SpecialThemeKey] : null
 
   const products = [
-    {
-      title: 'Aşk',
-      description: copy.landingAskDesc,
-      slug: 'ask',
-      imageSrc: '/placeholder-ask.jpg',
-      imageAlt: 'Aşk paketi',
-      animationType: 'ask' as const,
-    },
-    {
-      title: 'Hatıra',
-      description: copy.landingHatiraDesc,
-      slug: 'hatira',
-      imageSrc: '/placeholder-hatira.jpg',
-      imageAlt: 'Hatıra paketi',
-      animationType: 'hatira' as const,
-    },
-    {
-      title: 'Çocuk',
-      description: copy.landingCocukDesc,
-      slug: 'cocuk',
-      imageSrc: '/placeholder-cocuk.jpg',
-      imageAlt: 'Çocuk paketi',
-      animationType: 'cocuk' as const,
-    },
+    { title: 'Aşk', description: copy.landingAskDesc, slug: 'ask' },
+    { title: 'Hatıra', description: copy.landingHatiraDesc, slug: 'hatira' },
+    { title: 'Çocuk', description: copy.landingCocukDesc, slug: 'cocuk' },
   ]
   const processSteps = [
     { step: '1', title: copy.processStep1Title, description: copy.processStep1Desc },
@@ -112,29 +90,26 @@ export default async function HomePage() {
         </Container>
       </Section>
 
-      {/* Product Grid */}
+      {/* Product Strip */}
       <Section variant="subtle">
         <Container>
-          <SectionHeader
-            eyebrow="Paketlerimiz"
-            title="Her hikâyenin kendine özgü bir anlatımı vardır"
-            description="Size en uygun paketi seçin ve hikâyenizi ölümsüzleştirin."
-          />
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-serif text-[var(--fg)] tracking-tight">
+              Hikâyenizi seçin
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-3xl mx-auto">
             {products.map((product) => (
               <Link key={product.slug} href={`/products/${product.slug}`}>
-                <Card hover className="h-full">
-                  <div className="aspect-video bg-[var(--card)] rounded-lg mb-6 overflow-hidden border border-[var(--border)] flex items-center justify-center">
-                    <StoryAnimation type={product.animationType} className="w-full h-full" />
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-serif text-[var(--fg)] mb-3 tracking-tight">
+                <div className="group relative overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card)] p-6 md:p-8 text-center hover:border-[var(--fg)]/30 hover:shadow-lg transition-all duration-300">
+                  <h3 className="text-2xl md:text-3xl font-serif text-[var(--fg)] mb-1 tracking-tight">
                     {product.title}
                   </h3>
-                  <p className="text-sm md:text-base text-[var(--muted)] leading-relaxed">
-                    {product.description}
-                  </p>
-                </Card>
+                  <p className="text-sm text-[var(--muted)] mb-4">{product.description}</p>
+                  <span className="inline-flex items-center text-sm font-medium text-[var(--fg)] group-hover:gap-2 transition-all duration-300">
+                    İncele <span className="ml-1 group-hover:translate-x-1 transition-transform duration-300">→</span>
+                  </span>
+                </div>
               </Link>
             ))}
           </div>

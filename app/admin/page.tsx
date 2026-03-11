@@ -251,8 +251,8 @@ export default async function AdminPage() {
             </Link>
             <Link href="/admin/legal-pages">
               <Card hover className="p-5 h-full">
-                <h3 className="text-lg font-serif text-[var(--fg)] mb-1">Sayfa İçerikleri</h3>
-                <p className="text-sm text-[var(--muted)]">Hakkımızda, Teslimat/İade, Mesafeli Satış Sözleşmesi.</p>
+                <h3 className="text-lg font-serif text-[var(--fg)] mb-1">Bağlantılar Sayfaları</h3>
+                <p className="text-sm text-[var(--muted)]">Hakkımızda, Teslimat/İade, Mesafeli Satış, Gizlilik.</p>
               </Card>
             </Link>
             <Link href="/admin/example-videos">
