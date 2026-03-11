@@ -43,9 +43,7 @@ export default async function OrderDetailPage({
     notFound()
   }
 
-  const whatsappLink = buildWhatsAppLink({
-    orderCode: order.orderCode,
-  })
+  const whatsappLink = buildWhatsAppLink()
 
   const isPaymentSuccess = searchParams.payment === "success"
 

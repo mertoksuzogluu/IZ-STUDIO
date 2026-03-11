@@ -5,6 +5,7 @@ import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
 import { SessionProvider } from '@/components/SessionProvider'
 import GlobalThemeWrapper from '@/components/GlobalThemeWrapper'
+import FloatingWhatsApp from '@/components/FloatingWhatsApp'
 import { getActiveSpecialTheme } from '@/lib/settings'
 import { getSiteCopy, DEFAULT_SITE_COPY } from '@/lib/siteCopy'
 
@@ -64,6 +65,7 @@ export default async function RootLayout({
             <SiteHeader />
             <main>{children}</main>
             <SiteFooter tagline={siteCopy.footerTagline} />
+            <FloatingWhatsApp />
           </GlobalThemeWrapper>
         </SessionProvider>
       </body>

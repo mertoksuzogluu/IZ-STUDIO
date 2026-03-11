@@ -1,8 +1,8 @@
 'use client'
 
-import { buildWhatsAppLink, WhatsAppLinkParams } from '@/lib/whatsapp'
+import { buildWhatsAppLink } from '@/lib/whatsapp'
 
-interface WhatsAppCTAButtonProps extends WhatsAppLinkParams {
+interface WhatsAppCTAButtonProps {
   children: React.ReactNode
   className?: string
   variant?: 'primary' | 'secondary'
@@ -12,10 +12,9 @@ export default function WhatsAppCTAButton({
   children,
   className = '',
   variant = 'primary',
-  ...params
 }: WhatsAppCTAButtonProps) {
   const handleClick = () => {
-    const url = buildWhatsAppLink(params)
+    const url = buildWhatsAppLink()
     window.open(url, '_blank', 'noopener,noreferrer')
   }
 

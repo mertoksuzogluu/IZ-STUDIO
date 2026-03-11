@@ -57,7 +57,7 @@ export default function SiteFooter({
             <div>
               <h4 className="text-sm font-sans text-[var(--fg)] mb-4 uppercase tracking-wider">İletişim</h4>
               <a
-                href={buildWhatsAppLink({})}
+                href={buildWhatsAppLink()}
                 target="_blank"
                 rel="noopener noreferrer"
               >

@@ -32,7 +32,7 @@ export default function Button({
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (whatsapp) {
-      const url = buildWhatsAppLink({ orderCode: whatsapp.orderCode })
+      const url = buildWhatsAppLink()
       window.open(url, '_blank', 'noopener,noreferrer')
       return
     }

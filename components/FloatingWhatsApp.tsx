@@ -4,7 +4,7 @@ import { buildWhatsAppLink } from '@/lib/whatsapp'
 
 export default function FloatingWhatsApp() {
   const handleClick = () => {
-    const url = buildWhatsAppLink({})
+    const url = buildWhatsAppLink()
     window.open(url, '_blank', 'noopener,noreferrer')
   }
 

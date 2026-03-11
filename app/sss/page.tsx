@@ -53,7 +53,7 @@ export default async function SSSPage() {
                 {copy.sssCtaText || 'Sorunuzun cevabını bulamadınız mı?'}
               </p>
               <a
-                href={buildWhatsAppLink({})}
+                href={buildWhatsAppLink()}
                 target="_blank"
                 rel="noopener noreferrer"
               >
