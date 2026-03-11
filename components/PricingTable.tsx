@@ -35,7 +35,7 @@ export default function PricingTable({ tiers, product }: PricingTableProps) {
             ))}
           </ul>
           
-          <WhatsAppCTAButton product={product} className="w-full" variant="secondary">
+          <WhatsAppCTAButton className="w-full" variant="secondary">
             WhatsApp ile Sipariş
           </WhatsAppCTAButton>
         </div>
