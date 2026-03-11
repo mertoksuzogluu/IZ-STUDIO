@@ -1,7 +1,7 @@
 // WhatsApp helper function
 // Replace +90 5XX XXX XX XX with your actual WhatsApp number
 
-const WHATSAPP_NUMBER = '+90 5XX XXX XX XX'
+const WHATSAPP_NUMBER = '+90 543 157 13 79'
 
 export interface WhatsAppLinkParams {
   product?: 'ask' | 'hatira' | 'cocuk' | 'genel'
