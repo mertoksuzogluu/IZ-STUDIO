@@ -249,6 +249,12 @@ export default async function AdminPage() {
                 <p className="text-sm text-[var(--muted)]">Her sayfanın sıkça sorulan sorularını düzenleyin.</p>
               </Card>
             </Link>
+            <Link href="/admin/legal-pages">
+              <Card hover className="p-5 h-full">
+                <h3 className="text-lg font-serif text-[var(--fg)] mb-1">Sayfa İçerikleri</h3>
+                <p className="text-sm text-[var(--muted)]">Hakkımızda, Teslimat/İade, Mesafeli Satış Sözleşmesi.</p>
+              </Card>
+            </Link>
             <Link href="/admin/example-videos">
               <Card hover className="p-5 h-full">
                 <h3 className="text-lg font-serif text-[var(--fg)] mb-1">Örnek Videolar</h3>

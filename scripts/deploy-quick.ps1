@@ -17,6 +17,7 @@ $items = @(
     "app",
     "components",
     "lib",
+    "public/images",
     "middleware.ts",
     "package.json",
     "package-lock.json",

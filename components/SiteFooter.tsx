@@ -27,13 +27,28 @@ export default function SiteFooter({
               <h4 className="text-sm font-sans text-[var(--fg)] mb-4 uppercase tracking-wider">Bağlantılar</h4>
               <ul className="space-y-3">
                 <li>
-                  <Link href="/gizlilik" className="text-sm text-[var(--muted)] hover:text-[var(--fg)] transition-colors">
-                    Gizlilik Politikası
+                  <Link href="/hakkimizda" className="text-sm text-[var(--muted)] hover:text-[var(--fg)] transition-colors">
+                    Hakkımızda
                   </Link>
                 </li>
                 <li>
                   <Link href="/sss" className="text-sm text-[var(--muted)] hover:text-[var(--fg)] transition-colors">
                     Sık Sorulan Sorular
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/teslimat-iade" className="text-sm text-[var(--muted)] hover:text-[var(--fg)] transition-colors">
+                    Teslimat ve İade
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/mesafeli-satis-sozlesmesi" className="text-sm text-[var(--muted)] hover:text-[var(--fg)] transition-colors">
+                    Mesafeli Satış Sözleşmesi
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/gizlilik" className="text-sm text-[var(--muted)] hover:text-[var(--fg)] transition-colors">
+                    Gizlilik Politikası
                   </Link>
                 </li>
               </ul>
