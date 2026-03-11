@@ -11,7 +11,7 @@ export interface LegalPage {
   sections: LegalSection[]
 }
 
-export type LegalPageKey = "hakkimizda" | "teslimat-iade" | "mesafeli-satis"
+export type LegalPageKey = "hakkimizda" | "teslimat-iade" | "mesafeli-satis" | "gizlilik"
 
 const LEGAL_KEY_PREFIX = "legal_"
 
@@ -177,6 +177,58 @@ const DEFAULT_PAGES: Record<LegalPageKey, LegalPage> = {
       },
     ],
   },
+  gizlilik: {
+    title: "Gizlilik Politikası",
+    sections: [
+      {
+        title: "Kişisel Verilerin Korunması",
+        content:
+          "Feel Studio olarak, kişisel verilerinizin korunmasına büyük önem veriyoruz. 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında, topladığımız kişisel verileriniz yalnızca hizmetlerimizi sunmak amacıyla kullanılmaktadır.",
+      },
+      {
+        title: "Toplanan Veriler",
+        content: "Hizmetlerimiz kapsamında aşağıdaki veriler toplanabilir:",
+        list: [
+          "İsim ve iletişim bilgileri (WhatsApp üzerinden)",
+          "Gönderilen fotoğraflar ve içerikler",
+          "Hikâye metinleri ve özel notlar",
+          "İletişim geçmişi",
+        ],
+      },
+      {
+        title: "Verilerin Kullanım Amacı",
+        content:
+          "Toplanan kişisel verileriniz, sinematik kısa filmlerinizin hazırlanması, sipariş takibi, müşteri hizmetleri ve yasal yükümlülüklerimizin yerine getirilmesi amacıyla kullanılmaktadır.",
+      },
+      {
+        title: "Verilerin Saklanması ve Güvenliği",
+        content:
+          "Kişisel verileriniz, hizmetin tamamlanmasından sonra yasal saklama süreleri boyunca güvenli bir şekilde saklanır. Verilerinizin güvenliği için gerekli teknik ve idari önlemler alınmaktadır.",
+      },
+      {
+        title: "Verilerin Paylaşılması",
+        content:
+          "Kişisel verileriniz, yasal yükümlülükler dışında üçüncü kişilerle paylaşılmamaktadır. Gönderdiğiniz fotoğraflar ve içerikler yalnızca siparişinizin hazırlanması amacıyla kullanılmaktadır.",
+      },
+      {
+        title: "Haklarınız",
+        content: "KVKK kapsamında aşağıdaki haklara sahipsiniz:",
+        list: [
+          "Kişisel verilerinizin işlenip işlenmediğini öğrenme",
+          "İşlenmişse bilgi talep etme",
+          "İşlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme",
+          "Yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme",
+          "Eksik veya yanlış işlenmişse düzeltilmesini isteme",
+          "KVKK'nın 7. maddesinde öngörülen şartlar çerçevesinde silinmesini veya yok edilmesini isteme",
+        ],
+      },
+      {
+        title: "İletişim",
+        content:
+          "Gizlilik politikamız hakkında sorularınız veya haklarınızı kullanmak istediğinizde, WhatsApp üzerinden bizimle iletişime geçebilirsiniz.",
+      },
+    ],
+  },
 }
 
 export async function getLegalPage(key: LegalPageKey): Promise<LegalPage> {
@@ -194,7 +246,7 @@ export async function getLegalPage(key: LegalPageKey): Promise<LegalPage> {
 }
 
 export async function getAllLegalPages(): Promise<Record<LegalPageKey, LegalPage>> {
-  const keys: LegalPageKey[] = ["hakkimizda", "teslimat-iade", "mesafeli-satis"]
+  const keys: LegalPageKey[] = ["hakkimizda", "teslimat-iade", "mesafeli-satis", "gizlilik"]
   const result: Record<string, LegalPage> = {}
   for (const key of keys) {
     result[key] = await getLegalPage(key)

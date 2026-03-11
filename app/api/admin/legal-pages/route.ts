@@ -3,12 +3,13 @@ import { auth } from "@/lib/auth"
 import { getAllLegalPages, setLegalPage, type LegalPageKey } from "@/lib/legalPages"
 import { revalidatePath } from "next/cache"
 
-const VALID_PAGES: LegalPageKey[] = ["hakkimizda", "teslimat-iade", "mesafeli-satis"]
+const VALID_PAGES: LegalPageKey[] = ["hakkimizda", "teslimat-iade", "mesafeli-satis", "gizlilik"]
 
 const PATH_MAP: Record<LegalPageKey, string> = {
   hakkimizda: "/hakkimizda",
   "teslimat-iade": "/teslimat-iade",
   "mesafeli-satis": "/mesafeli-satis-sozlesmesi",
+  gizlilik: "/gizlilik",
 }
 
 export async function GET() {

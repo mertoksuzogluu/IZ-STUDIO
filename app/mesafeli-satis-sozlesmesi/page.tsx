@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 
 export default async function MesafeliSatisSozlesmesiPage() {
   const page = await getLegalPage("mesafeli-satis")
-  return <LegalPageView title={page.title} sections={page.sections} />
+  return <LegalPageView title={page.title} sections={page.sections} variant="document" />
 }

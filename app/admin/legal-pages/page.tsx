@@ -22,6 +22,7 @@ const PAGES = [
   { key: "hakkimizda", label: "Hakkımızda", icon: "🏢", path: "/hakkimizda" },
   { key: "teslimat-iade", label: "Teslimat ve İade", icon: "📦", path: "/teslimat-iade" },
   { key: "mesafeli-satis", label: "Mesafeli Satış Sözleşmesi", icon: "📄", path: "/mesafeli-satis-sozlesmesi" },
+  { key: "gizlilik", label: "Gizlilik Politikası", icon: "🔒", path: "/gizlilik" },
 ] as const
 
 type PageKey = (typeof PAGES)[number]["key"]
