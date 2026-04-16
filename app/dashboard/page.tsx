@@ -122,8 +122,12 @@ export default async function DashboardPage() {
                             <span className="font-mono text-sm text-[var(--muted)]">
                               {order.orderCode}
                             </span>
-                            <span className="px-2 py-1 text-xs bg-[var(--card)] border border-[var(--border)] rounded">
-                              {formatOrderStatus(order.status)}
+                            <span className={`px-2 py-1 text-xs rounded ${
+                              order.paymentStatus !== "PAID" && order.status === "RECEIVED"
+                                ? "bg-amber-50 border border-amber-200 text-amber-700"
+                                : "bg-[var(--card)] border border-[var(--border)]"
+                            }`}>
+                              {formatOrderStatus(order.status, order.paymentStatus)}
                             </span>
                           </div>
                           <p className="font-medium text-[var(--fg)]">

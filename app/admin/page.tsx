@@ -184,8 +184,12 @@ export default async function AdminPage() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <span className="font-mono text-xs text-[var(--muted)]">{order.orderCode}</span>
-                        <span className="px-2 py-0.5 text-xs bg-[var(--card)] border border-[var(--border)] rounded">
-                          {formatOrderStatus(order.status)}
+                        <span className={`px-2 py-0.5 text-xs rounded border ${
+                          order.paymentStatus !== "PAID" && order.status === "RECEIVED"
+                            ? "bg-amber-50 text-amber-700 border-amber-200"
+                            : "bg-[var(--card)] border-[var(--border)]"
+                        }`}>
+                          {formatOrderStatus(order.status, order.paymentStatus)}
                         </span>
                       </div>
                       <div className="text-right">

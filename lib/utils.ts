@@ -35,7 +35,10 @@ export function formatDate(date: Date | string): string {
   }).format(new Date(date))
 }
 
-export function formatOrderStatus(status: string): string {
+export function formatOrderStatus(status: string, paymentStatus?: string): string {
+  if (status === "RECEIVED" && paymentStatus && paymentStatus !== "PAID") {
+    return "Ödeme Bekleniyor"
+  }
   const statusMap: Record<string, string> = {
     RECEIVED: "Sipariş Alındı",
     IN_PRODUCTION: "Üretimde",

@@ -71,8 +71,12 @@ export default async function OrdersPage() {
                             <div>
                               <div className="flex items-center gap-2 mb-1 flex-wrap">
                                 <span className="font-mono text-xs text-[var(--muted)]">{order.orderCode}</span>
-                                <span className="px-2 py-0.5 text-xs bg-blue-50 text-blue-700 border border-blue-200 rounded">
-                                  {formatOrderStatus(order.status)}
+                                <span className={`px-2 py-0.5 text-xs rounded border ${
+                                  order.paymentStatus !== "PAID" && order.status === "RECEIVED"
+                                    ? "bg-amber-50 text-amber-700 border-amber-200"
+                                    : "bg-blue-50 text-blue-700 border-blue-200"
+                                }`}>
+                                  {formatOrderStatus(order.status, order.paymentStatus)}
                                 </span>
                                 <span className="px-2 py-0.5 text-xs bg-[var(--card)] border border-[var(--border)] rounded">
                                   {formatPaymentStatus(order.paymentStatus)}
