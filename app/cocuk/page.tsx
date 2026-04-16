@@ -126,7 +126,7 @@ export default async function CocukPage() {
                   ? parseListItems(copy.cocukSectionDeliverItems)
                   : [
                       "MP4 formatında kısa film (24 saat teslim)",
-                      "30 sn: 16:9 + 9:16 Story/Reels; 60 sn: 16:9; 100 sn: ikisi de",
+                      "30 sn: sadece 9:16 Story/Reels; 60 sn: 16:9; 100 sn: ikisi de",
                       "Acil teslimat seçeneği ile 3 saat teslim",
                     ]
                 ).map((item, index) => (

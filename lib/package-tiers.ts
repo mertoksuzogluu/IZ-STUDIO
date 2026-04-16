@@ -8,7 +8,7 @@ export const STANDARD_TIERS = [
 export const TIER_FEATURES: Record<number, string[]> = {
   30: [
     "Sinematik kısa film",
-    "16:9 + 9:16 (Story/Reels)",
+    "Sadece 9:16 (Story/Reels)",
     "MP4 teslim",
     "24 saat teslim",
     "Acil teslimat seçeneği ile 3 saat (+300 ₺)",

@@ -9,7 +9,7 @@ import Card from "@/components/design-system/Card"
 import { formatPrice, PHYSICAL_PACKAGE_FEE } from "@/lib/utils"
 
 const DURATION_FEATURES: Record<number, string> = {
-  30: "16:9 + 9:16 (Story/Reels)",
+  30: "Sadece 9:16 (Story/Reels)",
   60: "16:9 yatay",
   100: "16:9 + 9:16 ikisi de",
 }

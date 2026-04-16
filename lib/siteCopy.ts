@@ -108,19 +108,19 @@ export const DEFAULT_SITE_COPY: SiteCopy = {
     "En az 10-15 adet fotoğrafınız (sipariş formunda yükleme)\nHikâyenizi anlatan kısa metin (sipariş formunda)\nİsimler ve özel tarih (isteğe bağlı)\nİstenen ton ve özel notlar",
   askSectionTitleDeliver: "Ne Teslim Ediyoruz?",
   askSectionDeliverItems:
-    "MP4 formatında kısa film (24 saat teslim)\n30 sn: 16:9 + 9:16 Story/Reels; 60 sn: 16:9; 100 sn: ikisi de\nAcil teslimat seçeneği ile 3 saat teslim",
+    "MP4 formatında kısa film (24 saat teslim)\n30 sn: sadece 9:16 Story/Reels; 60 sn: 16:9; 100 sn: ikisi de\nAcil teslimat seçeneği ile 3 saat teslim",
   hatiraSectionTitleNeed: "Sizden Ne Alıyoruz?",
   hatiraSectionNeedItems:
     "Eski ve yeni fotoğraflarınız (sipariş formunda yükleme)\nAnılarınızla ilgili kısa not veya hikâye (sipariş formunda)\nÖzel tarihler ve isimler (isteğe bağlı)\nİstenen ton ve özel notlar",
   hatiraSectionTitleDeliver: "Ne Teslim Ediyoruz?",
   hatiraSectionDeliverItems:
-    "MP4 formatında kısa film (24 saat teslim)\n30 sn: 16:9 + 9:16 Story/Reels; 60 sn: 16:9; 100 sn: ikisi de\nAcil teslimat seçeneği ile 3 saat teslim",
+    "MP4 formatında kısa film (24 saat teslim)\n30 sn: sadece 9:16 Story/Reels; 60 sn: 16:9; 100 sn: ikisi de\nAcil teslimat seçeneği ile 3 saat teslim",
   cocukSectionTitleNeed: "Sizden Ne Alıyoruz?",
   cocukSectionNeedItems:
     "Çocuğunuzun büyüme sürecini gösteren fotoğraflar (sipariş formunda yükleme)\nİsim ve doğum tarihi (isteğe bağlı)\nÖzel anılar veya notlar (sipariş formunda)\nİstenen ton ve müzik tercihi",
   cocukSectionTitleDeliver: "Ne Teslim Ediyoruz?",
   cocukSectionDeliverItems:
-    "MP4 formatında kısa film (24 saat teslim)\n30 sn: 16:9 + 9:16 Story/Reels; 60 sn: 16:9; 100 sn: ikisi de\nAcil teslimat seçeneği ile 3 saat teslim",
+    "MP4 formatında kısa film (24 saat teslim)\n30 sn: sadece 9:16 Story/Reels; 60 sn: 16:9; 100 sn: ikisi de\nAcil teslimat seçeneği ile 3 saat teslim",
   sssPageTitle: "Sık Sorulan Sorular",
   sssPageDescription:
     "Feel Studio hakkında merak ettikleriniz. Sorunuzun cevabını bulamadıysanız, WhatsApp üzerinden bizimle iletişime geçebilirsiniz.",
@@ -135,7 +135,7 @@ export const DEFAULT_SITE_COPY: SiteCopy = {
   sss3Answer: "Standart teslim süremiz 24 saattir. Acil teslimat seçeneği ile 3 saat içinde teslim.",
   sss4Question: "Hangi video formatlarında teslim ediliyor?",
   sss4Answer:
-    "30 saniye: 16:9 yatay + 9:16 dikey (Story/Reels). 60 saniye: sadece 16:9. 100 saniye: hem 16:9 hem 9:16. Tüm filmler MP4 formatında teslim edilir.",
+    "30 saniye: sadece 9:16 dikey (Story/Reels). 60 saniye: 16:9 yatay. 100 saniye: hem 16:9 hem 9:16. Tüm filmler MP4 formatında teslim edilir.",
   sss5Question: "Revizyon hakkı nedir?",
   sss5Answer:
     "İlk teslimden sonra beğenmediğiniz kısımları belirtirsiniz, biz düzeltiriz. Revizyon taleplerinizi WhatsApp üzerinden iletebilirsiniz.",
@@ -150,7 +150,7 @@ export const DEFAULT_SITE_COPY: SiteCopy = {
     "Paketler 30, 60 ve 100 saniye. Kısa ve öz için 30 saniye, daha detaylı hikâye için 60 veya 100 saniye öneririz. Acil teslimat seçeneği ile 3 saatte teslim mümkün.",
   sss9Question: "Sosyal medyada paylaşabilir miyim?",
   sss9Answer:
-    "Evet, teslim edilen filmleri paylaşabilirsiniz. 30 ve 100 saniye paketlerinde Story/Reels için 9:16 dikey format da dahildir.",
+    "Evet, teslim edilen filmleri paylaşabilirsiniz. 30 saniye paketinde teslim yalnızca 9:16 (Story/Reels) formatındadır; 100 saniye paketinde hem 16:9 hem 9:16 dahildir.",
   sss10Question: "Müzik seçimini nasıl yapıyoruz?",
   sss10Answer:
     "WhatsApp üzerinden size uygun müzik örnekleri göndeririz. Beğendiğiniz müziği seçebilir veya kendi müziğinizi önerebilirsiniz. Telif hakları konusunda dikkatli olunması gerekir.",

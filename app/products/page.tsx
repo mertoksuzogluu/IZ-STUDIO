@@ -20,7 +20,7 @@ function buildTierFeatures(packageLabel: string): Record<number, string[]> {
   return {
     30: [
       packageLabel,
-      "16:9 + 9:16 (Story/Reels)",
+      "Sadece 9:16 (Story/Reels)",
       "MP4 teslim",
       "24 saat teslim",
       "Acil teslimat seçeneği ile 3 saat",

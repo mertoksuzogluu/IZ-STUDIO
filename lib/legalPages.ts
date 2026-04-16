@@ -79,8 +79,9 @@ const DEFAULT_PAGES: Record<LegalPageKey, LegalPage> = {
         title: "Teslimat Formatları",
         content: "Filminiz seçtiğiniz pakete göre aşağıdaki formatlarda teslim edilir:",
         list: [
-          "16:9 yatay format (YouTube, TV uyumlu)",
-          "9:16 dikey format (Instagram Story, Reels, TikTok uyumlu)",
+          "30 saniye paket: yalnızca 9:16 dikey format (Instagram Story, Reels, TikTok uyumlu)",
+          "60 saniye paket: 16:9 yatay format (YouTube, TV uyumlu)",
+          "100 saniye paket: hem 16:9 hem 9:16 format",
           "MP4 formatında yüksek kaliteli video dosyası",
           "4K UHD seçeneği ile ultra yüksek çözünürlük (ek ücretli)",
         ],

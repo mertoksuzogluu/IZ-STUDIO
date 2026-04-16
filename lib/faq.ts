@@ -13,7 +13,7 @@ const DEFAULT_FAQ: Record<FaqPage, FaqItem[]> = {
   genel: [
     { question: "Film ne kadar sürede hazır olur?", answer: "Standart teslim süremiz 24 saattir. Acil teslimat seçeneği ile 3 saat içinde teslim." },
     { question: "Fotoğraf ve hikâyemi nasıl paylaşırım?", answer: "Sipariş oluştururken formdan fotoğraflarınızı ve hikâyenizi paylaşırsınız. Sonraki adımda yükleme ekranı açılır." },
-    { question: "Video formatları nasıl?", answer: "30 saniye: 16:9 yatay + 9:16 dikey (Story/Reels). 60 saniye: 16:9. 100 saniye: hem 16:9 hem 9:16." },
+    { question: "Video formatları nasıl?", answer: "30 saniye: sadece 9:16 dikey (Story/Reels). 60 saniye: 16:9 yatay. 100 saniye: hem 16:9 hem 9:16." },
   ],
   ask: [
     { question: "Aşk paketi için kaç fotoğraf gerekli?", answer: "En az 10-15 adet fotoğraf yeterlidir. Sipariş oluştururken formdan yüklersiniz." },
