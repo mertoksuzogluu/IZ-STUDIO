@@ -31,32 +31,18 @@ export async function middleware(request: NextRequest) {
     return NextResponse.rewrite(new URL("/api/signout", request.url))
   }
 
+  // Auth gerektirmeyen route'lar — hızlıca geç
+  const needsAuth =
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/admin") ||
+    (pathname.startsWith("/order/") && !pathname.startsWith("/order/start"))
+
+  if (!needsAuth) {
+    return NextResponse.next()
+  }
+
   const session = await auth()
   const baseUrl = getBaseUrl(request)
-
-  // API route'ları kendi içinde auth kontrol eder; middleware müdahale etmesin
-  if (pathname.startsWith("/api/")) {
-    return NextResponse.next()
-  }
-
-  // Public routes - allow access
-  const publicRoutes = [
-    "/auth",
-    "/products",
-    "/order/start",
-    "/checkout",
-    "/v",
-    "/",
-    "/cocuk",
-    "/ask",
-    "/hatira",
-  ]
-
-  const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route))
-
-  if (isPublicRoute) {
-    return NextResponse.next()
-  }
 
   // Admin routes
   if (pathname.startsWith("/admin")) {
