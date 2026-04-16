@@ -15,6 +15,16 @@ function getBaseUrl(request: NextRequest): string {
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
+  const host = request.headers.get("host") || ""
+
+  // www → non-www yönlendirmesi (cookie/session tutarlılığı için)
+  if (host.startsWith("www.")) {
+    const nonWwwHost = host.replace(/^www\./, "")
+    const url = request.nextUrl.clone()
+    url.host = nonWwwHost
+    url.protocol = "https"
+    return NextResponse.redirect(url, 301)
+  }
 
   // Çıkış: NextAuth yerine bizim route kullansın, localhost'a düşmesin
   if (pathname === "/api/auth/signout") {
@@ -76,9 +86,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/api/auth/signout",
-    "/dashboard/:path*",
-    "/admin/:path*",
-    "/order/:path*",
+    "/((?!_next/static|_next/image|favicon\\.ico|uploads/).*)",
   ],
 }
