@@ -150,15 +150,18 @@ export default function AdminOrdersList({
   initialTab: string
   initialSearch: string
 }) {
-  const [tab, setTab] = useState<"active" | "completed">(initialTab === "completed" ? "completed" : "active")
+  const [tab, setTab] = useState<"all" | "active" | "completed">(
+    initialTab === "completed" ? "completed" : initialTab === "active" ? "active" : "all"
+  )
   const [search, setSearch] = useState(initialSearch)
 
   const filtered = useMemo(() => {
-    const statusList = tab === "active"
-      ? ACTIVE_STATUSES as readonly string[]
-      : COMPLETED_STATUSES as readonly string[]
-
-    let result = orders.filter((o) => statusList.includes(o.status))
+    let result = orders
+    if (tab === "active") {
+      result = result.filter((o) => (ACTIVE_STATUSES as readonly string[]).includes(o.status))
+    } else if (tab === "completed") {
+      result = result.filter((o) => (COMPLETED_STATUSES as readonly string[]).includes(o.status))
+    }
 
     if (search.trim()) {
       const q = search.toLowerCase()
@@ -176,6 +179,7 @@ export default function AdminOrdersList({
 
   const activeCount = orders.filter((o) => (ACTIVE_STATUSES as readonly string[]).includes(o.status)).length
   const completedCount = orders.filter((o) => (COMPLETED_STATUSES as readonly string[]).includes(o.status)).length
+  const totalCount = orders.length
 
   const [clearing, setClearing] = useState(false)
   const [showClearConfirm, setShowClearConfirm] = useState(false)
@@ -246,6 +250,17 @@ export default function AdminOrdersList({
       <div className="flex gap-1 p-1 bg-[var(--border)]/50 rounded-xl mb-6 w-fit">
         <button
           type="button"
+          onClick={() => setTab("all")}
+          className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+            tab === "all"
+              ? "bg-white text-[var(--fg)] shadow-sm"
+              : "text-[var(--muted)] hover:text-[var(--fg)]"
+          }`}
+        >
+          Tümü ({totalCount})
+        </button>
+        <button
+          type="button"
           onClick={() => setTab("active")}
           className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
             tab === "active"
@@ -284,7 +299,11 @@ export default function AdminOrdersList({
         {weekGroups.length === 0 ? (
           <Card className="p-10 text-center">
             <p className="text-[var(--muted)]">
-              {tab === "active" ? "Aktif sipariş bulunmuyor." : "Tamamlanan sipariş bulunmuyor."}
+              {tab === "active"
+                ? "Aktif sipariş bulunmuyor."
+                : tab === "completed"
+                ? "Tamamlanan sipariş bulunmuyor."
+                : "Sipariş bulunmuyor."}
             </p>
           </Card>
         ) : (

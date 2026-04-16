@@ -46,7 +46,7 @@ export default async function AdminOrdersPage({
         <div className="pt-32 pb-16">
           <AdminOrdersList
             orders={serialized}
-            initialTab={searchParams.tab || "active"}
+            initialTab={searchParams.tab || "all"}
             initialSearch={searchParams.search || ""}
           />
         </div>
