@@ -32,7 +32,7 @@ export interface PaymentProvider {
     basketItems?: { id: string; name: string; category: string; price: number; type: "VIRTUAL" | "PHYSICAL" }[]
   }): Promise<{ paymentUrl: string; paymentId: string; token?: string }>
 
-  verifyPayment(token: string): Promise<{
+  verifyPayment(token: string, expectedOrderCode?: string, expectedAmount?: number): Promise<{
     success: boolean
     status: "PAID" | "PENDING" | "FAILED"
     paymentId?: string
@@ -166,12 +166,12 @@ export class IyzicoPaymentProvider implements PaymentProvider {
     })
   }
 
-  async verifyPayment(token: string): Promise<{
+  async verifyPayment(token: string, expectedOrderCode?: string, expectedAmount?: number): Promise<{
     success: boolean
     status: "PAID" | "PENDING" | "FAILED"
     paymentId?: string
   }> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.iyzipay.checkoutForm.retrieve(
         { locale: Iyzipay.LOCALE.TR, token },
         (err: any, result: any) => {
@@ -183,6 +183,15 @@ export class IyzicoPaymentProvider implements PaymentProvider {
           console.log("[iyzico] Payment result:", result.paymentStatus, result.status)
 
           if (result.status === "success" && result.paymentStatus === "SUCCESS") {
+            if (expectedOrderCode && result.basketId !== expectedOrderCode) {
+              console.error("[iyzico] basketId mismatch:", result.basketId, "!=", expectedOrderCode)
+              return resolve({ success: false, status: "FAILED" })
+            }
+            if (expectedAmount && Math.abs(parseFloat(result.paidPrice) - expectedAmount) > 0.01) {
+              console.error("[iyzico] paidPrice mismatch:", result.paidPrice, "!=", expectedAmount)
+              return resolve({ success: false, status: "FAILED" })
+            }
+
             return resolve({
               success: true,
               status: "PAID",
@@ -204,28 +213,24 @@ export class IyzicoPaymentProvider implements PaymentProvider {
 // ─── Provider seçimi ───
 function createPaymentProvider(): PaymentProvider {
   const provider = (process.env.PAYMENT_PROVIDER || "").trim().toLowerCase()
+  const isProduction = process.env.NODE_ENV === "production"
+
   if (provider === "iyzico") {
-    try {
-      const { apiKey, secretKey, uri } = getIyzicoConfig()
-      if (!apiKey || !secretKey) {
-        console.warn(
-          "[Payment] PAYMENT_PROVIDER=iyzico ama API key/secret bos (IYZIPAY_* veya IYZICO_*). Mock kullaniliyor."
+    const { apiKey, secretKey } = getIyzicoConfig()
+    if (!apiKey || !secretKey) {
+      if (isProduction) {
+        throw new Error(
+          "[Payment] KRITIK: PAYMENT_PROVIDER=iyzico ama API key/secret bos. Uygulama baslatilmayacak."
         )
-        return new MockPaymentProvider()
       }
-      return new IyzicoPaymentProvider()
-    } catch (e: any) {
-      console.error("[Payment] iyzico provider olusturulamadi:", e.message)
-      console.warn("[Payment] Mock provider kullaniliyor.")
+      console.warn("[Payment] PAYMENT_PROVIDER=iyzico ama key bos. Dev: Mock kullaniliyor.")
       return new MockPaymentProvider()
     }
+    return new IyzicoPaymentProvider()
   }
-  if (provider !== "mock") {
-    console.warn(
-      "[Payment] PAYMENT_PROVIDER ne 'iyzico' ne 'mock' (mevcut: '" +
-        (process.env.PAYMENT_PROVIDER || "(bos)") +
-        "'). Mock kullaniliyor."
-    )
+
+  if (isProduction && provider !== "mock") {
+    console.warn("[Payment] Production'da PAYMENT_PROVIDER tanimli degil — mock kullaniliyor!")
   }
   return new MockPaymentProvider()
 }
