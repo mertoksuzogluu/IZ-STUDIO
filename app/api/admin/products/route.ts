@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { Prisma } from "@prisma/client"
 
 export async function GET() {
   try {
@@ -32,7 +33,15 @@ export async function POST(req: NextRequest) {
     }
     const body = await req.json()
     const { name, slug, description, isPhysical, tiers } = body
-    if (!name || !slug) {
+    const normalizedSlug = String(slug || "")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^a-z0-9-]/g, "")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "")
+
+    if (!name || !normalizedSlug) {
       return NextResponse.json(
         { error: "name and slug required" },
         { status: 400 }
@@ -41,7 +50,7 @@ export async function POST(req: NextRequest) {
     const product = await prisma.product.create({
       data: {
         name,
-        slug: slug.toLowerCase().replace(/\s+/g, "-"),
+        slug: normalizedSlug,
         description: description || null,
         isPhysical: Boolean(isPhysical),
         active: true,
@@ -63,6 +72,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(product)
   } catch (error) {
     console.error("Admin product create error:", error)
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      return NextResponse.json(
+        { error: "Bu slug zaten kullanılıyor. Farklı bir slug girin." },
+        { status: 409 }
+      )
+    }
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
