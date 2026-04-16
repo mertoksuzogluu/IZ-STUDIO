@@ -5,9 +5,31 @@ import { sendOrderStatusEmail } from "@/lib/email"
 
 export const dynamic = "force-dynamic"
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || "https://feelcreativestudio.com"
+const RAW_SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  process.env.NEXTAUTH_URL ||
+  "https://feelcreativestudio.com"
+
+function getBaseUrl(req: NextRequest): string {
+  const envUrl = (RAW_SITE_URL || "").trim()
+  if (/^https?:\/\//i.test(envUrl)) {
+    return envUrl.replace(/\/+$/, "")
+  }
+
+  const host = req.headers.get("x-forwarded-host") || req.headers.get("host")
+  const proto =
+    req.headers.get("x-forwarded-proto") || (host?.includes("localhost") ? "http" : "https")
+
+  if (host) {
+    return `${proto}://${host}`
+  }
+
+  return "https://feelcreativestudio.com"
+}
 
 async function handleCallback(req: NextRequest) {
+  const baseUrl = getBaseUrl(req)
+
   try {
     const searchParams = req.nextUrl.searchParams
     const orderCode = searchParams.get("orderCode")
@@ -23,7 +45,7 @@ async function handleCallback(req: NextRequest) {
     }
 
     if (!orderCode) {
-      return NextResponse.redirect(new URL("/dashboard?error=payment_failed", SITE_URL))
+      return NextResponse.redirect(new URL("/dashboard?error=payment_failed", baseUrl))
     }
 
     const order = await prisma.order.findUnique({
@@ -32,12 +54,12 @@ async function handleCallback(req: NextRequest) {
     })
 
     if (!order) {
-      return NextResponse.redirect(new URL("/dashboard?error=order_not_found", SITE_URL))
+      return NextResponse.redirect(new URL("/dashboard?error=order_not_found", baseUrl))
     }
 
     if (order.paymentStatus === "PAID") {
       return NextResponse.redirect(
-        new URL(`/dashboard/orders/${orderCode}?payment=already_paid`, SITE_URL)
+        new URL(`/dashboard/orders/${orderCode}?payment=already_paid`, baseUrl)
       )
     }
 
@@ -46,7 +68,7 @@ async function handleCallback(req: NextRequest) {
     if (!izyicoToken) {
       console.error("[Payment Callback] Token bulunamadi, orderCode:", orderCode)
       return NextResponse.redirect(
-        new URL(`/checkout/${orderCode}?error=payment_failed`, SITE_URL)
+        new URL(`/checkout/${orderCode}?error=payment_failed`, baseUrl)
       )
     }
 
@@ -70,22 +92,22 @@ async function handleCallback(req: NextRequest) {
       }
 
       return NextResponse.redirect(
-        new URL(`/dashboard/orders/${orderCode}?payment=success`, SITE_URL)
+        new URL(`/dashboard/orders/${orderCode}?payment=success`, baseUrl)
       )
     }
 
     if (verification.status === "PENDING") {
       return NextResponse.redirect(
-        new URL(`/dashboard/orders/${orderCode}?payment=pending`, SITE_URL)
+        new URL(`/dashboard/orders/${orderCode}?payment=pending`, baseUrl)
       )
     }
 
     return NextResponse.redirect(
-      new URL(`/checkout/${orderCode}?error=payment_failed`, SITE_URL)
+      new URL(`/checkout/${orderCode}?error=payment_failed`, baseUrl)
     )
   } catch (error) {
     console.error("Payment callback error:", error)
-    return NextResponse.redirect(new URL("/dashboard?error=payment_error", SITE_URL))
+    return NextResponse.redirect(new URL("/dashboard?error=payment_error", baseUrl))
   }
 }
 
