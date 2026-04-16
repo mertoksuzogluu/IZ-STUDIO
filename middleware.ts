@@ -19,11 +19,8 @@ export async function middleware(request: NextRequest) {
 
   // www → non-www yönlendirmesi (cookie/session tutarlılığı için)
   if (host.startsWith("www.")) {
-    const nonWwwHost = host.replace(/^www\./, "")
-    const url = request.nextUrl.clone()
-    url.host = nonWwwHost
-    url.protocol = "https"
-    return NextResponse.redirect(url, 301)
+    const target = `https://feelcreativestudio.com${pathname}${request.nextUrl.search}`
+    return NextResponse.redirect(target, 301)
   }
 
   // Çıkış: NextAuth yerine bizim route kullansın, localhost'a düşmesin
