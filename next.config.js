@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  serverExternalPackages: ['iyzipay'],
+  experimental: {
+    serverComponentsExternalPackages: ['iyzipay'],
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
   },
